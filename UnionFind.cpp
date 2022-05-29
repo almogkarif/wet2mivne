@@ -49,7 +49,7 @@ Company *UnionFind::Find(int company_id)
     return _company[root];
 }
 
-bool UnionFind::Union(int company_id1, int company_id2,double factor)
+bool UnionFind::UnionLeftAcquire(int company_id1, int company_id2,double factor)
 {
     Company *c1 = Find(company_id1);
     Company *c2 = Find(company_id2);
@@ -63,12 +63,15 @@ bool UnionFind::Union(int company_id1, int company_id2,double factor)
     }
     if(_union_size[c1->id]>=_union_size[c2->id])
     {
-        c1->mergeWith(*c2,factor);
+        _company[company_id1]->stock_value += (_company[company_id1]->stock_value)*factor;
+        _company[company_id2]->stock_value -= _company[company_id1]->stock_value;
+        c1->mergeWith(*c2);
         _point_to[c2->id] = c1->id;
     }
     else
     {
-        c2->mergeWith(*c1,factor);
+        _company[company_id1]->stock_value += (_company[company_id1]->stock_value)*(factor-1);
+        c2->mergeWith(*c1);
         _point_to[c1->id] = c2->id;
     }
     return true;
