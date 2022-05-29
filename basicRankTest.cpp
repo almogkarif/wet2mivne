@@ -103,12 +103,29 @@ int main()
         cout <<"test2 faild" <<endl;
     }
 
-    if(gradeTree1.findRank(*((gradeTree1.select(3))->data)) != 11)
+    if(gradeTree1.findRank(*indTree1.selectElement(3)) != 11)
     {
         cout <<"test3 faild" << endl;
     }
 
+    gradeTree1.remove(e1);
+    indTree1.remove(e1);
 
+
+    if(gradeTree1.findRank(e5) != 10)
+    {
+        cout <<"test4 faild" << endl;
+    }
+
+    gradeTree1.merge(gradeTree2);
+    indTree1.merge(indTree2);
+    gradeTree1.insert(e1);
+    indTree1.insert(e1);
+    if(gradeTree1.findRank(e8) != 26)
+    {
+        cout <<"test5 faild" << endl;
+    }
+    
 
     return 0;
 }

@@ -1,7 +1,7 @@
 #ifndef HW2_RANK_H
 #define HW2_RANK_H
 #include "Node.h"
-#include "AvlTreeExceptions.h"
+#include "RankTreeExceptions.h"
 #include <iostream>
 #include <cmath>
 
@@ -38,6 +38,8 @@ public:
     Node<T, RankFunc>* find(const T& element);
 
     Node<T, RankFunc>* select(int element_rank);
+    T* selectElement(int element_rank);
+
     Node<T, RankFunc>* selectAux(int element_rank, Node<T, RankFunc>* loc);
 
 
@@ -123,6 +125,13 @@ Node<T, RankFunc>* RankTree<T,Pred ,RankFunc>::find(const T& element)
         }
     }
 }
+
+template<class T, class Pred, class RankFunc>
+T* RankTree<T, Pred, RankFunc>::selectElement(int element_rank)
+{
+    return select(element_rank)->data;
+}
+
 
 template<class T, class Pred, class RankFunc>
 Node<T, RankFunc>* RankTree<T, Pred, RankFunc>::select(int element_rank)

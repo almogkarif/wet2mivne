@@ -1,12 +1,10 @@
 #ifndef EMPLOYEE_H_
 #define EMPLOYEE_H_
 
-#include "memory"
 #include "Node.h"
-#include "AvlTree.h"
+#include "Rank.h"
 #include "Employee.h"
-#include "ostream"
-#include "AvlTreeExceptions.h"
+#include "RankTreeExceptions.h"
 
 
 class Company;
@@ -16,9 +14,9 @@ class Employee
 private:
 
 public:
-    int id;
-    int salary;
-    int grade;
+    int _id;
+    int _salary;
+    int _grade;
     Node<Company>* company;
 
     Employee(int n_id);

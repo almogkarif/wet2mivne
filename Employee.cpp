@@ -1,4 +1,4 @@
-#include "Company.h"
+// #include "Company.h"
 #include "Employee.h"
 // #include "Ex2Exceptions.h"
 
