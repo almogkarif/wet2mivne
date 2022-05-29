@@ -131,7 +131,7 @@ int getElementsSize(Node<T, RankFunc>* node)
     if(node == nullptr)
         return 0;
     
-    return node->calcNodeSize(*(node->data))
+    return node->calcNodeSize(*(node->data));
 }
 
 

@@ -38,7 +38,7 @@ public:
     Node<T, RankFunc>* find(const T& element);
 
     Node<T, RankFunc>* select(int element_rank);
-    Node<T, RankFunc>* selectAux(int element_rank, int ind, Node<T, RankFunc>* loc);
+    Node<T, RankFunc>* selectAux(int element_rank, Node<T, RankFunc>* loc);
 
 
     int findRank(const T& element);
@@ -69,6 +69,7 @@ public:
     void removeTwoSons(Node<T, RankFunc>* to_remove, Node<T, RankFunc>* p, bool is_right);
 
     void merge(RankTree<T,Pred, RankFunc>& source);
+    void nullifyTree();
     void setMin()
     {
         Node<T, RankFunc>* m = root;
@@ -95,9 +96,6 @@ void margeNodeArr(Node<T, RankFunc>* a_arr[], int a_size, Node<T, RankFunc>* b_a
 
 template<class T, class RankFunc>
 Node<T, RankFunc>* fromArrToNodes(Node<T, RankFunc>*& root, Node<T, RankFunc>* ab_arr[], int start, int end);
-
-template<class T, class Pred, class RankFunc>
-void margeTrees(RankTree<T,Pred, RankFunc>& a, RankTree<T,Pred, RankFunc>& b, RankTree<T,Pred, RankFunc>& ab);
 
 
 template<class T, class Pred, class RankFunc>
@@ -129,45 +127,29 @@ Node<T, RankFunc>* RankTree<T,Pred ,RankFunc>::find(const T& element)
 template<class T, class Pred, class RankFunc>
 Node<T, RankFunc>* RankTree<T, Pred, RankFunc>::select(int element_rank)
 {
-    int ind = 0;
-    return selectAux(element_rank, ind, root);
+    return selectAux(element_rank, root);
 }
 
 template<class T, class Pred, class RankFunc>
-Node<T, RankFunc>* RankTree<T,Pred,RankFunc>::selectAux(int element_rank, int ind, Node<T, RankFunc>* loc)
+Node<T, RankFunc>* RankTree<T,Pred,RankFunc>::selectAux(int element_rank, Node<T, RankFunc>* loc)
 {
     if(loc == nullptr)
     {
         throw not_in_tree();
     }
-
-    int left_rank = 0;
-    if(loc->left != nullptr)
-    {
-        left_rank = loc->left->rank;
-    }
-
-    int rank_with_loc = getElementsSize(loc) + left_rank + ind;
-    int rank_without_loc = left_rank + ind;
-
-    if(rank_with_loc == element_rank)
+    int left_rank = calcNodeRank(loc->left);
+    int loc_size = getElementsSize(loc);
+    if(left_rank == element_rank - loc_size)
     {
         return loc;
     }
-
-    if((rank_without_loc < element_rank) && (rank_with_loc > element_rank))
-    {   
-        throw not_in_tree();
-    }
-
-    if(rank_with_loc > element_rank)
+    else if(left_rank > element_rank - loc_size)
     {
-        return selectAux(element_rank, ind, loc->left);
+        return selectAux(element_rank, loc->left);
     }
-
-    if(rank_with_loc < element_rank)
+    else
     {
-        return selectAux(element_rank, rank_with_loc, loc->right);
+        return selectAux(element_rank - left_rank - loc_size, loc->right);
     }
 }
 
@@ -193,6 +175,7 @@ int RankTree<T,Pred,RankFunc>::findRank(const T& element)
             r += calcNodeRank(temp->left) + getElementsSize(temp);
             temp = temp->right;
         }
+        //temp == elemnt
         else {
             r += calcNodeRank(temp->left) + getElementsSize(temp);
             return r;
@@ -637,7 +620,16 @@ void RankTree<T,Pred, RankFunc>::merge(RankTree<T,Pred, RankFunc> &source) {
     delete[] arr1;
     delete[] arr2;
     delete[] merged_arr;
+    source.nullifyTree();
+}
 
+template<class T, class Pred, class RankFunc>
+void RankTree<T,Pred,RankFunc>::nullifyTree()
+{
+    max_n = nullptr;
+    min_n = nullptr;
+    root = nullptr;
+    size = 0;
 }
 
 

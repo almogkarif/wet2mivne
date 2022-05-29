@@ -15,7 +15,7 @@ public:
     UnionFind(const UnionFind &uf) = delete;
     UnionFind &operator=(const UnionFind &uf) = delete;
     void makeSet(int company_id);
-    bool Union(int company_id1, int company_id2);
+    bool Union(int company_id1, int company_id2,double factor);
     Company *Find(int company_id);
 
 
