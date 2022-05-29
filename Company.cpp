@@ -153,14 +153,12 @@ void updateCompany(Node<Employee*>* emp, Node<Company>* comp)
 
 }
 
-void Company::mergeWith(Company &target, double  Factor) {
-    if(stock_value < 10 * target.stock_value)
-        throw failure();
+void Company::mergeWith(Company &target) {
+    // IdTree.merge(target.IdTree);
+    // target.IdTree.root = nullptr;
+    // SalaryTree.merge(target.SalaryTree);
+    // target.SalaryTree.root = nullptr;
 
-    stock_value = (int)((Factor)*(target.stock_value + stock_value));
-    IdTree.merge(target.IdTree);
-    target.IdTree.root = nullptr;
-    SalaryTree.merge(target.SalaryTree);
-    target.SalaryTree.root = nullptr;
+    //COMBINE MERGE
 
 }
