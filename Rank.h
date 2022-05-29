@@ -171,7 +171,34 @@ Node<T, RankFunc>* RankTree<T,Pred,RankFunc>::selectAux(int element_rank, int in
     }
 }
 
-
+template<class T, class Pred, class RankFunc>
+int RankTree<T,Pred,RankFunc>::findRank(const T& element)
+{
+    int r = 0;
+    Node<T, RankFunc>* temp = root;
+    while(true)
+    {
+        if(temp == nullptr)
+        {
+            throw not_in_tree();
+        }
+        //temp>element
+        if( a_bigger_b(*(temp->data), element))
+        {
+            temp = temp->left;
+        }
+        //temp<element
+        else if( a_bigger_b(element, *(temp->data)))
+        {
+            r += calcNodeRank(temp->left) + getElementsSize(temp);
+            temp = temp->right;
+        }
+        else {
+            r += calcNodeRank(temp->left) + getElementsSize(temp);
+            return r;
+        }
+    }
+}
 
 template<class T, class Pred, class RankFunc>
 void RankTree<T,Pred, RankFunc>::insert(const T& element)
